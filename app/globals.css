@@ -5,6 +5,8 @@
   --color-primary-foreground: hsl(var(--primary-foreground));
 }
 
+@custom-variant dark (&:is(.dark *));
+
 @layer base {
   :root {
     --background: 210 40% 98%;
