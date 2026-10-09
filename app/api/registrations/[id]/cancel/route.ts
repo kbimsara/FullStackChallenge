@@ -11,7 +11,8 @@ export async function POST(req: NextRequest, { params }: { params: any }) {
   }
 
   try {
-    const registration = await cancelRegistration(params.id, session.user.id);
+    const { id } = await params;
+    const registration = await cancelRegistration(id, session.user.id);
     return NextResponse.json(registration);
   } catch (error: any) {
     if (error instanceof ConcurrencyError) {
