@@ -3,6 +3,7 @@ import connectToDatabase from '../lib/db';
 import { User } from '../models/User';
 import { Role } from '../lib/roles';
 import { Workshop, WorkshopStatus } from '../models/Workshop';
+import { Registration, RegistrationStatus } from '../models/Registration';
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 
@@ -30,8 +31,9 @@ async function seedData() {
     { upsert: true, new: true }
   );
 
-  // Clear old workshops for a fresh seed state
+  // Clear old workshops and registrations for a fresh seed state
   await Workshop.deleteMany({});
+  await Registration.deleteMany({});
 
   const now = new Date();
   
@@ -90,7 +92,41 @@ async function seedData() {
     }
   ];
 
-  await Workshop.insertMany(workshops);
+  const insertedWorkshops = await Workshop.insertMany(workshops);
+  
+  // Create registrations
+  const ws101 = insertedWorkshops.find(w => w.code === 'WS-101');
+  const ws103 = insertedWorkshops.find(w => w.code === 'WS-103');
+  
+  const registrations = [
+    {
+      workshopId: ws101?._id,
+      attendeeName: 'John Doe',
+      attendeeEmail: 'john@example.com',
+      status: RegistrationStatus.ACTIVE,
+      registeredAt: new Date(),
+      registeredBy: staff._id,
+    },
+    {
+      workshopId: ws101?._id,
+      attendeeName: 'Jane Smith',
+      attendeeEmail: 'jane@example.com',
+      status: RegistrationStatus.CANCELLED,
+      registeredAt: new Date(now.getTime() - 24 * 60 * 60 * 1000),
+      cancelledAt: new Date(),
+      registeredBy: manager._id,
+    },
+    {
+      workshopId: ws103?._id,
+      attendeeName: 'Bob Builder',
+      attendeeEmail: 'bob@example.com',
+      status: RegistrationStatus.ACTIVE,
+      registeredAt: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000),
+      registeredBy: staff._id,
+    }
+  ];
+
+  await Registration.insertMany(registrations);
   
   console.log('Seed data inserted successfully.');
   process.exit(0);
