@@ -60,30 +60,30 @@ export default function WorkshopsPage() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Workshops</h1>
+        <h1 className="text-3xl font-bold text-foreground">Workshops</h1>
         {canCreate && (
-          <Link href="/workshops/new" className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-blue-700 transition">
+          <Link href="/workshops/new" className="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:opacity-90 transition">
             <Plus className="w-4 h-4 mr-2" />
             Create Workshop
           </Link>
         )}
       </div>
 
-      <div className="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 flex flex-col sm:flex-row gap-4">
+      <div className="bg-card text-card-foreground p-4 rounded-xl shadow-sm border border-border flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-gray-400" />
+            <Search className="h-5 w-5 text-muted-foreground" />
           </div>
           <input
             type="text"
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md leading-5 bg-white dark:bg-gray-800 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition"
+            className="block w-full pl-10 pr-3 py-2 border border-input rounded-md leading-5 bg-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring sm:text-sm transition"
             placeholder="Search by code or title..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         <select
-          className="block w-full sm:w-48 pl-3 pr-10 py-2 text-base border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md transition"
+          className="block w-full sm:w-48 pl-3 pr-10 py-2 text-base border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring sm:text-sm rounded-md transition"
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
         >
@@ -93,10 +93,10 @@ export default function WorkshopsPage() {
           <option value="COMPLETED">Completed</option>
           <option value="CANCELLED">Cancelled</option>
         </select>
-        <label className="flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap cursor-pointer hover:opacity-80 transition">
+        <label className="flex items-center space-x-2 text-sm text-muted-foreground whitespace-nowrap cursor-pointer hover:text-foreground transition">
           <input
             type="checkbox"
-            className="rounded border-gray-300 text-primary focus:ring-primary"
+            className="rounded border-input text-primary focus:ring-ring"
             checked={availableOnly}
             onChange={(e) => setAvailableOnly(e.target.checked)}
           />
@@ -107,7 +107,7 @@ export default function WorkshopsPage() {
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 h-[220px] flex flex-col p-5">
+            <div key={i} className="bg-card rounded-xl shadow-sm border border-border h-[220px] flex flex-col p-5">
               <Skeleton className="h-5 w-1/3 mb-4 rounded-full" />
               <Skeleton className="h-6 w-3/4 mb-4" />
               <Skeleton className="h-4 w-full mb-2" />
@@ -116,12 +116,12 @@ export default function WorkshopsPage() {
           ))}
         </div>
       ) : error ? (
-        <div className="text-center py-12 bg-white dark:bg-gray-900 rounded-xl border border-red-200 border-dashed">
-          <p className="text-red-500">Failed to load workshops.</p>
+        <div className="text-center py-12 bg-destructive/10 rounded-xl border border-destructive/20 border-dashed">
+          <p className="text-destructive">Failed to load workshops.</p>
         </div>
       ) : filteredWorkshops.length === 0 ? (
-        <div className="text-center py-12 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 border-dashed">
-          <p className="text-gray-500 dark:text-gray-400">No workshops found matching your criteria.</p>
+        <div className="text-center py-12 bg-card rounded-xl border border-border border-dashed">
+          <p className="text-muted-foreground">No workshops found matching your criteria.</p>
         </div>
       ) : (
         <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -133,10 +133,10 @@ export default function WorkshopsPage() {
             return (
               <motion.div variants={itemAnim} key={workshop._id}>
                 <Link href={`/workshops/${workshop._id}`} className="block group h-full">
-                  <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-lg hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 h-full flex flex-col">
+                  <div className="bg-card text-card-foreground rounded-xl shadow-sm border border-border overflow-hidden hover:shadow-lg hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 h-full flex flex-col">
                     <div className="p-5 flex-1">
                       <div className="flex justify-between items-start mb-2">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-muted text-muted-foreground">
                           {workshop.code}
                         </span>
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
@@ -148,22 +148,22 @@ export default function WorkshopsPage() {
                           {workshop.status}
                         </span>
                       </div>
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary transition-colors">
+                      <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                         {workshop.title}
                       </h3>
                       <div className="space-y-2 mt-4">
-                        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                          <Calendar className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
+                        <div className="flex items-center text-sm text-muted-foreground">
+                          <Calendar className="flex-shrink-0 mr-1.5 h-4 w-4" />
                           {new Date(workshop.startAt).toLocaleDateString()} at {new Date(workshop.startAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                         </div>
-                        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                          <MapPin className="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" />
+                        <div className="flex items-center text-sm text-muted-foreground">
+                          <MapPin className="flex-shrink-0 mr-1.5 h-4 w-4" />
                           {workshop.location}
                         </div>
                       </div>
                     </div>
-                    <div className="bg-gray-50 dark:bg-gray-800/50 px-5 py-3 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between transition-colors group-hover:bg-primary/5">
-                      <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                    <div className="bg-muted/30 px-5 py-3 border-t border-border flex items-center justify-between transition-colors group-hover:bg-primary/5">
+                      <div className="flex items-center text-sm text-muted-foreground">
                         <Users className="mr-1.5 h-4 w-4" />
                         {workshop.registeredCount} / {workshop.capacity}
                       </div>
