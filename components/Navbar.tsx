@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { LayoutDashboard, LogOut, Users, BookOpen } from 'lucide-react';
 import { Permissions, hasPermission } from '@/lib/permissions';
+import { ThemeToggle } from './ThemeToggle';
 
 export function Navbar() {
   const { data: session } = useSession();
@@ -41,7 +42,8 @@ export function Navbar() {
               )}
             </div>
           </div>
-          <div className="hidden sm:ml-6 sm:flex sm:items-center">
+          <div className="hidden sm:ml-6 sm:flex sm:items-center space-x-4">
+            <ThemeToggle />
             <span className="text-sm text-gray-500 mr-4">
               {session.user?.name} ({session.user?.role})
             </span>
