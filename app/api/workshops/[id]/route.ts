@@ -25,7 +25,8 @@ export async function GET(req: NextRequest, { params }: { params: any }) {
   }
 
   await connectToDatabase();
-  const workshop = await Workshop.findById(params.id);
+  const { id } = await params;
+  const workshop = await Workshop.findById(id);
   if (!workshop) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
@@ -43,7 +44,8 @@ export async function PATCH(req: NextRequest, { params }: { params: any }) {
     const body = await req.json();
     const data = updateSchema.parse(body);
     
-    const workshop = await updateWorkshop(params.id, data as any, session.user.id);
+    const { id } = await params;
+    const workshop = await updateWorkshop(id, data as any, session.user.id);
     return NextResponse.json(workshop);
   } catch (error: any) {
     if (error instanceof z.ZodError) {
